@@ -1,0 +1,89 @@
+-- Table: public.Customer
+
+-- DROP TABLE IF EXISTS public."Customer";
+
+CREATE TABLE IF NOT EXISTS public."Customer"
+(
+    "Id" uuid NOT NULL,
+    "FirstName" text COLLATE pg_catalog."default" NOT NULL,
+    "LastName" text COLLATE pg_catalog."default",
+    "DateOfBirth" date,
+    CONSTRAINT "Customer_pkey" PRIMARY KEY ("Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Customer"
+    OWNER to postgres;
+
+-----------------------------------------------------------
+
+-- DROP TABLE IF EXISTS public."Order";
+
+CREATE TABLE IF NOT EXISTS public."Order"
+(
+    "Id" uuid NOT NULL,
+    "CustomerId" uuid NOT NULL,
+    "FlightId" uuid NOT NULL,
+    "Amount" numeric,
+    "Status" smallint,
+    "Quantity" integer,
+    "FlightRateId" uuid,
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_CustomerId_Customer_id" FOREIGN KEY ("CustomerId")
+        REFERENCES public."Customer" ("Id") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "FK_FlightId_Flights_id" FOREIGN KEY ("FlightId")
+        REFERENCES public."Flights" ("Id") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "FK_FlightRateId_FlightRate_id" FOREIGN KEY ("FlightRateId")
+        REFERENCES public."FlightRates" ("Id") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Order"
+    OWNER to postgres;
+-- Index: fki_FK_CustomerId_Customer_id
+
+-- DROP INDEX IF EXISTS public."fki_FK_CustomerId_Customer_id";
+
+CREATE INDEX IF NOT EXISTS "fki_FK_CustomerId_Customer_id"
+    ON public."Order" USING btree
+    ("CustomerId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_FK_FlightId_Flights_id
+
+-- DROP INDEX IF EXISTS public."fki_FK_FlightId_Flights_id";
+
+CREATE INDEX IF NOT EXISTS "fki_FK_FlightId_Flights_id"
+    ON public."Order" USING btree
+    ("FlightId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_FK_FlightRateId_FlightRate_id
+
+-- DROP INDEX IF EXISTS public."fki_FK_FlightRateId_FlightRate_id";
+
+CREATE INDEX IF NOT EXISTS "fki_FK_FlightRateId_FlightRate_id"
+    ON public."Order" USING btree
+    ("FlightRateId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-----------------------------------------------------------------------
+
+Add Customer
+INSERT INTO public."Customer"(
+	"Id", "FirstName", "LastName", "DateOfBirth")
+	VALUES ('5eba1dad-a1f3-40bf-b227-8589c3b39535','Vidura', 'Weerasooriya', '"2023-03-12"');
+
+add Order 
+INSERT INTO public."Order"(
+	"Id", "CustomerId", "FlightId", "Amount", "Status", "Quantity", "FlightRateId")
+	VALUES ('5eba1dad-a1f3-40bf-b227-8589c3b39789','5eba1dad-a1f3-40bf-b227-8589c3b39535', '2bdf08eb-8926-4c84-be56-7d5a03913d0c', 4500, 0, 5, '05f26806-06d3-4ec0-b874-733e0fc9beed');

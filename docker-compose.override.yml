@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  database:
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASS: test123
+      POSTGRES_DBNAME: development
+    ports:
+      - "5432:5432"
