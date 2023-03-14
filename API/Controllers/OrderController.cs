@@ -25,19 +25,30 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Order save as Draft
+        /// </summary>
+        /// <param name="command">customerid, flightid, flightrateid, quantity</param>
+        /// <returns>ordre model</returns>
         [HttpPost]
         public async Task<IActionResult> Store([FromBody] CreateOrderCommand command)
         {
-            var customer = await _mediator.Send(command);
-            return Ok(customer);
+            var flightrate = await _mediator.Send(command); 
+            return Created("https://localhost:44300/Order", flightrate);
             //return Ok(_mapper.Map<OrderViewModel>(Order));
         }
 
+        /// <summary>
+        /// order status update as Confirmed and available flights will reduce from flit rate table and send message to respective customer
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> Confirm([FromBody] UpdateOrderCommand command)
         {
             var flightrate = await _mediator.Send(command);
-            return Ok(flightrate);
+            //return Ok(flightrate);
+            return Created("https://localhost:44300/Order", flightrate);
             //return Ok(_mapper.Map<OrderViewModel>(Order));
         }
 

@@ -14,5 +14,6 @@ namespace Domain.Aggregates.CustomerAggregate
         void Update(Customer flight);
 
         Task<Customer> GetAsync(Guid customerid);
+        Task<List<Customer>> GetbyNameAsync(string name);
     }
 }

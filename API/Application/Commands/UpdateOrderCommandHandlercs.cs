@@ -1,4 +1,6 @@
-﻿using Domain.Aggregates.FlightAggregate;
+﻿using API.Application.ViewModels;
+using AutoMapper;
+using Domain.Aggregates.FlightAggregate;
 using Domain.Aggregates.OrderAggregate;
 using Domain.Common;
 using MediatR;
@@ -8,18 +10,20 @@ using System.Threading.Tasks;
 
 namespace API.Application.Commands
 {
-    public class UpdateOrderCommandHandlercs : IRequestHandler<UpdateOrderCommand, Order>
+    public class UpdateOrderCommandHandlercs : IRequestHandler<UpdateOrderCommand, OrderViewModel>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IFlightRateRepository _flightRateRepository;
+        private readonly IMapper _mapper;
 
-        public UpdateOrderCommandHandlercs(IOrderRepository orderRepository, IFlightRateRepository flightRateRepository)
+        public UpdateOrderCommandHandlercs(IOrderRepository orderRepository, IFlightRateRepository flightRateRepository,IMapper mapper)
         {
             _orderRepository = orderRepository;
             _flightRateRepository = flightRateRepository;
+            _mapper = mapper;
         }
 
-        public async Task<Order> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<OrderViewModel> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
             var Order = await _orderRepository.GetAsync(request.Id);
             if (Order != null && Order.Status == (short)OrderStatus.Draft)
@@ -41,7 +45,9 @@ namespace API.Application.Commands
 
             }
 
-            return Order;
+            OrderViewModel orderObj = _mapper.Map<OrderViewModel>(Order);
+            orderObj.SetTotal();
+            return orderObj;
         }
     
     }

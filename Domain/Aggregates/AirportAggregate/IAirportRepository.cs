@@ -12,6 +12,6 @@ namespace Domain.Aggregates.AirportAggregate
 
         Task<Airport> GetAsync(Guid airportId);
 
-        Task<Airport> GetAirportByName(string name);
+        Task<Airport> GetAirportByCode(string code);
     }
 }

@@ -34,9 +34,9 @@ namespace Infrastructure.Repositores
         {
             return await _context.Airports.FirstOrDefaultAsync(o => o.Id == airportId);
         }
-        public async Task<Airport> GetAirportByName(string name)
+        public async Task<Airport> GetAirportByCode(string code)
         {
-            return await _context.Airports.FirstOrDefaultAsync(o => o.Name == name);
+            return await _context.Airports.FirstOrDefaultAsync(o => o.Code == code);
         }
     }
 }

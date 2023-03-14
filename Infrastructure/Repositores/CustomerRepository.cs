@@ -26,8 +26,12 @@ namespace Infrastructure.Repositores
         {
             return await _context.Customer.FirstOrDefaultAsync(x => x.Id == customerid);
         }
-        
-         
+
+        public async Task<List<Customer>> GetbyNameAsync(string name)
+        {
+            return await _context.Customer.Where(x => x.FirstName.ToLower().Contains(name.ToLower()) || x.LastName.ToLower().Contains(name.ToLower())).ToListAsync();
+        }
+
         public Customer Add(Customer customer)
         {
             return _context.Customer.Add(customer).Entity; 

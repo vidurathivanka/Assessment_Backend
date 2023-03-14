@@ -27,28 +27,35 @@ namespace API.Application.Commands
 
             List<FlightResponse> FlightList = new List<FlightResponse>();
             //get airtport detail by destination name
-            var destinationairport = await _airportRepository.GetAirportByName(request.value);
+            var destinationairport = await _airportRepository.GetAirportByCode(request.code);
             if (destinationairport != null)
             {
                 // get all the flights details
                 var flights = await _flightRepository.GetFlights();
                 // get flight list by destination id
                 var searchedairport = flights.FindAll(x => x.DestinationAirportId == destinationairport.Id);
-
-                FlightResponse flight;
-                foreach (Flight f in searchedairport)
+                if (searchedairport.Count > 0)
                 {
-                    //get depature aiport 
-                    var OriginAirport = await _airportRepository.GetAsync(f.OriginAirportId);
-                    //get minimum price from flight rates
-                    decimal minrate = await _flightRateRepository.GetMinRateByFlight(f.Id);
-                    if (minrate != -1)
+                    FlightResponse flight;
+                    foreach (Flight f in searchedairport)
                     {
-                        flight = new FlightResponse(OriginAirport.Code, destinationairport.Code, f.Departure, f.Arrival, minrate);
-                        FlightList.Add(flight);
-                    }
+                        //get depature aiport 
+                        var OriginAirport = await _airportRepository.GetAsync(f.OriginAirportId);
+                        //get minimum price from flight rates
+                        decimal minrate = await _flightRateRepository.GetMinRateByFlight(f.Id);
+                        if (minrate != -1)
+                        {
+                            flight = new FlightResponse(OriginAirport.Code, destinationairport.Code, f.Departure, f.Arrival, minrate);
+                            FlightList.Add(flight);
+                        }
 
+                    }
                 }
+                else
+                {
+                    FlightList.Add(new FlightResponse("Error", "",System.DateTimeOffset.MaxValue, System.DateTimeOffset.MaxValue,0));
+                }
+
             }
             return  FlightList;
         }

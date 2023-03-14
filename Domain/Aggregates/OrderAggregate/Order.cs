@@ -28,7 +28,7 @@ namespace Domain.Aggregates.OrderAggregate
         {
             Amount = amount;
         }
-        public Order(Guid custid, Guid flightid, Guid flightRateid, decimal amount, Int16 status, int quantity) : this()
+        public Order(Guid custid, Guid flightid, Guid flightRateid, Int16 status, int quantity,decimal amount) : this()
         {
             CustomerId = custid;
             FlightId = flightid;

@@ -6,10 +6,10 @@ namespace API.Application.ViewModels
     {
         public Guid Id { get; set; }
 
-        public string FirstName { get; private set; }
+        public string FirstName { get; set; }
 
-        public string LastName { get; private set; }
+        public string LastName { get;  set; }
 
-        public DateTimeOffset DateOfBirth { get; private set; }
+        public DateTimeOffset DateOfBirth { get;  set; }
     }
 }
