@@ -20,6 +20,13 @@ namespace API.Application.Commands
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// return the customer data based on the search string, this will check with first name and last name 
+        /// if contains any matching string
+        /// </summary>
+        /// <param name="request">String</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>customer detail list</returns>
         public async Task<List<CustomerViewModel>> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
         {
             List<CustomerViewModel> customerSearchedList = new List<CustomerViewModel>();

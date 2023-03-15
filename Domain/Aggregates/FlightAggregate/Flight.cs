@@ -42,7 +42,7 @@ namespace Domain.Aggregates.FlightAggregate
         {
             var rate = GetRate(rateId);
             
-            rate.ChangePrice(price);
+            rate.ChangePrice(price.Value, price.Currency);
             
             AddDomainEvent(new FlightRatePriceChangedEvent(this, rate));
         }

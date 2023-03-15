@@ -22,6 +22,12 @@ namespace API.Application.Commands
             _flightRateRepository = flightRateRepository;
         }
 
+        /// <summary>
+        /// search the flights with destination airport code then retrive available flight details with minimum price
+        /// </summary>
+        /// <param name="request">destination airport code</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>flight details with minmum price or for empty records show warrning message</returns>
         public async Task<List<FlightResponse>> Handle(GetAvailableFlightbydestinationQuery request, CancellationToken cancellationToken)
         {
 
@@ -41,14 +47,13 @@ namespace API.Application.Commands
                     {
                         //get depature aiport 
                         var OriginAirport = await _airportRepository.GetAsync(f.OriginAirportId);
-                        //get minimum price from flight rates
+                        //get minimum price from flight rates if  there is flight rates for the respective flights
                         decimal minrate = await _flightRateRepository.GetMinRateByFlight(f.Id);
                         if (minrate != -1)
                         {
                             flight = new FlightResponse(OriginAirport.Code, destinationairport.Code, f.Departure, f.Arrival, minrate);
                             FlightList.Add(flight);
                         }
-
                     }
                 }
                 else

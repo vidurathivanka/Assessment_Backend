@@ -1,6 +1,6 @@
-﻿using Domain.Aggregates.CustomerAggregate;
-using Domain.Aggregates.FlightAggregate;
+﻿using Domain.Aggregates.FlightAggregate;
 using Domain.Aggregates.OrderAggregate;
+using Domain.Common;
 using MediatR;
 using System;
 using System.Threading;
@@ -19,24 +19,34 @@ namespace API.Application.Commands
             _orderRepository = OrderRepository;
         }
 
+        /// <summary>
+        /// Update flight rate and update the respective draft ordre's line amount
+        /// </summary>
+        /// <param name="request">FlightRate ID, amount</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>updated fkight rate id, give message to the customer who has draft order for paticular flight rate</returns>
         public async Task<FlightRate> Handle(UpdateFlightRateCommand request, CancellationToken cancellationToken)
         {
-
+            //get flight rate details
             var flightRate = await _flightRateRepository.GetAsync(request.Id);
             if (flightRate != null)
             {
-                flightRate.ChangePrice(request.Price);
+                //update the price
+                flightRate.ChangePrice(request.Price, Currency.EUR);
                 _flightRateRepository.Update(flightRate);
 
                 await _flightRateRepository.UnitOfWork.SaveChangesAsync();
 
-                var orderList = await _orderRepository.GetOrderbyFlightRate(flightRate.Id);
+                //get the ordre details by flight rate id
+                var orderList = await _orderRepository.GetDraftOrderbyFlightRate(flightRate.Id);
 
                 foreach (Order orderObj in orderList)
                 {
-                    orderObj.UpdateAmount(request.Price.Value);
+                    //update the order's line amount
+                    orderObj.UpdateAmount(request.Price);
                     _orderRepository.Update(orderObj);
 
+                    //send message to the customer who has draft ordres that flight rates has been updated
                     // need to get user details from user repository
                     Console.WriteLine(orderObj.CustomerId + "  Dear sir, your Flight Rates has been change now");
                 }

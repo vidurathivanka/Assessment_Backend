@@ -17,6 +17,11 @@ namespace Domain.Aggregates.FlightAggregate
 
         List<FlightRate> GetFlightRates();
 
+        /// <summary>
+        /// Group by Flight ID and get the minimum amount 
+        /// </summary>
+        /// <param name="flightId"></param>
+        /// <returns>return flight rates record with minimum amount</returns>
         Task<decimal> GetMinRateByFlight(Guid flightId);
     }
 }

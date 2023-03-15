@@ -43,13 +43,8 @@ namespace Infrastructure.Repositores
 
         public async Task<List<Flight>> GetFlights()
         {
-            return await _context.Flights.ToListAsync();
-            //return flight;
+            return await _context.Flights.ToListAsync(); 
         }
-        //public async Task<Airport> GetAsync(Guid airportId)
-        //{
-        //    return await _context.Airports.FirstOrDefaultAsync(o => o.Id == airportId);
-        //}
 
     }
 }

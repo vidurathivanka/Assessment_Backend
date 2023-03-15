@@ -1,5 +1,6 @@
 ﻿using Domain.Aggregates.AirportAggregate;
 using Domain.Aggregates.OrderAggregate;
+using Domain.Common;
 using Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -39,14 +40,24 @@ namespace Infrastructure.Repositores
             return await _context.Order.FirstOrDefaultAsync(x => x.Id == orderId);
         }
 
+        /// <summary>
+        /// Order details filted by flight id
+        /// </summary>
+        /// <param name="flighId">fligh Id</param>
+        /// <returns>Ordre List</returns>
         public async Task<List<Order>> GetOrderbyFlight(Guid flighId)
         {
             return await _context.Order.Where(x => x.Id == flighId).ToListAsync();
         }
 
-       public async Task<List<Order>> GetOrderbyFlightRate(Guid flighrateId)
+        /// <summary>
+        /// Get Order details by filter the status as DRAFT
+        /// </summary>
+        /// <param name="flighrateId">flighrate Id</param>
+        /// <returns>order details</returns>
+        public async Task<List<Order>> GetDraftOrderbyFlightRate(Guid flighrateId)
         {
-            return await _context.Order.Where(x => x.FlightRateId == flighrateId).ToListAsync();
+            return await _context.Order.Where(x => x.FlightRateId == flighrateId && x.Status == (short)OrderStatus.Draft).ToListAsync();
         }
 
         Task<List<Order>> IOrderRepository.GetOrders()

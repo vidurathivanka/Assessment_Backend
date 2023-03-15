@@ -17,9 +17,19 @@ namespace Domain.Aggregates.OrderAggregate
 
         Task<List<Order>> GetOrders();
 
+        /// <summary>
+        /// Order details filted by flight id
+        /// </summary>
+        /// <param name="flighId">fligh Id</param>
+        /// <returns>Ordre List</returns>
         Task<List<Order>> GetOrderbyFlight(Guid flighId);
 
-        Task<List<Order>> GetOrderbyFlightRate(Guid flighrateId);
+        /// <summary>
+        /// Get Order details by filter the status as DRAFT
+        /// </summary>
+        /// <param name="flighrateId">flighrate Id</param>
+        /// <returns>order details</returns>
+        Task<List<Order>> GetDraftOrderbyFlightRate(Guid flighrateId);
 
     }
 }

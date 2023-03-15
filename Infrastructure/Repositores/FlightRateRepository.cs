@@ -43,6 +43,11 @@ namespace Infrastructure.Repositores
         }
 
 
+        /// <summary>
+        /// Group by Flight ID and get the minimum amount 
+        /// </summary>
+        /// <param name="flightId"></param>
+        /// <returns>return flight rates record with minimum amount</returns>
         public async Task<decimal> GetMinRateByFlight(Guid flightId)
         {
             return await _context.FlightRates.Where(o => o.FlightId == flightId).MinAsync(x => x.Price.Value);

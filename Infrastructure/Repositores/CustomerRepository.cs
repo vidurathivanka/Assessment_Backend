@@ -27,6 +27,11 @@ namespace Infrastructure.Repositores
             return await _context.Customer.FirstOrDefaultAsync(x => x.Id == customerid);
         }
 
+        /// <summary>
+        /// Get customer details which conains first name or last name of given string
+        /// </summary>
+        /// <param name="name"> name </param>
+        /// <returns> customer detail list</returns>
         public async Task<List<Customer>> GetbyNameAsync(string name)
         {
             return await _context.Customer.Where(x => x.FirstName.ToLower().Contains(name.ToLower()) || x.LastName.ToLower().Contains(name.ToLower())).ToListAsync();

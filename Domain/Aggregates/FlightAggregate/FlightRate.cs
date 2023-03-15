@@ -20,10 +20,11 @@ namespace Domain.Aggregates.FlightAggregate
             Available = available;
         }
 
-        public void ChangePrice(Price price)
+        public void ChangePrice(decimal value, Currency currency)
         {
-            Price = price;
+            Price = new(value, currency);
         }
+
         public void ReduceAvailability(int quantity)
         {
             Available -= quantity;

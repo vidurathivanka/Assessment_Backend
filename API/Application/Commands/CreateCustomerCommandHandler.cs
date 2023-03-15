@@ -14,6 +14,12 @@ namespace API.Application.Commands
             _customerRepository = customerRepository;
         }
 
+        /// <summary>
+        /// Add customer data to the customer table 
+        /// </summary>
+        /// <param name="request"> first name, Last Name, Dat of Birth</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>inserted customer data</returns>
         public async Task<Customer> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             var customer = _customerRepository.Add(new Customer(request.FirstName, request.LastName,request.DateOfBirth));
