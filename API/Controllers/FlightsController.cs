@@ -60,6 +60,5 @@ public class FlightsController : ControllerBase
     {
         var flightrate = await _mediator.Send(command);
         return Ok(flightrate);
-        //return Ok(_mapper.Map<OrderViewModel>(Order));
     }
 }

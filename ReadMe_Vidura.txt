@@ -4,18 +4,28 @@ I have atached DB script to create Order and Cutomer table and sample data for i
 I ahve changed the USer name and password of the connection to mine
 
 below are the sample API data
+NOTE - please run the 'SQL_DATA_INSERT_query.sql' before call the API
 
 API sample 
+
+----------Get Flights--
+user can inser the destination airport code and get the available flights details,
+	if there is no any flights available it will give warrning message
+	if there is no any match airport for the given code it will show warning message.
+
 ---Create Customer-----------
 {
-  "firstName": "TEST",
-  "lastName": "End Name",
-  "dateOfBirth": "2003-03-12"
+  "firstName": "Kasun",
+  "lastName": "Prabath",
+  "dateOfBirth": "2001-03-12"
 }
  
+------Get Customer -------------
+user can search by string, system will return customer details which conatins in first name or last name.
+
 --Update Flight Rate ---
 {
-  "id": "05f26806-06d3-4ec0-b874-733e0fc9beed",
+  "id": "aa714f5d-dd51-489a-a403-f61d01d5c990",
   "price": {
     "value": 5000,
     "currency": 0
@@ -24,12 +34,10 @@ API sample
 
 ---Draft Order ------------------
 {
-  "customerId": "5eba1dad-a1f3-40bf-b227-8589c3b39535",
-  "flightId": "2bdf08eb-8926-4c84-be56-7d5a03913d0c",
-  "flightRateId": "05f26806-06d3-4ec0-b874-733e0fc9beed",
-  "amount": 0,
-  "status": 0,
-  "quantity": 0
+  "customerId": "5eba1dad-a1f3-40bf-b227-8589c3b39539",
+  "flightId": "aa714f5d-dd51-489a-a403-f61d01d5c980",
+  "flightRateId": "aa714f5d-dd51-489a-a403-f61d01d5c991", 
+  "quantity": 8
 }
 
 ---------Submit Order---------------

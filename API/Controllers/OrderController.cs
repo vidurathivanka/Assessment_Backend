@@ -35,7 +35,6 @@ namespace API.Controllers
         {
             var flightrate = await _mediator.Send(command); 
             return Created("https://localhost:44300/Order", flightrate);
-            //return Ok(_mapper.Map<OrderViewModel>(Order));
         }
 
         /// <summary>
@@ -47,7 +46,6 @@ namespace API.Controllers
         public async Task<IActionResult> Confirm([FromBody] UpdateOrderCommand command)
         {
             var flightrate = await _mediator.Send(command);
-            //return Ok(flightrate);
             return Created("https://localhost:44300/Order", flightrate);
             //return Ok(_mapper.Map<OrderViewModel>(Order));
         }
